@@ -5,7 +5,11 @@ export class NewsItem extends Component {
     return (
       <div>
         <div className="card " style={{ width: "18rem" }}>
-          <img src="/" className="card-img-top" alt="..." />
+          <img
+            src="https://www.rozgar.com/static/media/offered-you5.07308a5247c4e002024f.jpg"
+            className="card-img-top"
+            alt="..."
+          />
           <div className="card-body">
             <h5 className="card-title">Card title</h5>
             <p className="card-text">
