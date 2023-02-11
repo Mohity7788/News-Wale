@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 export default class NavBar extends Component {
+  articles = [];
+
   render() {
     return (
       <div>
