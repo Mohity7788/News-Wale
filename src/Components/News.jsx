@@ -55,18 +55,6 @@ class News extends Component {
           page: this.state.page + 1,
         });
       });
-    // if (this.state.page + 1 > Math.ceil(this.state.totalArticles / 20)) {
-    // } else {
-    //   console.log("next button clicked");
-    //   let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12&page=${
-    //     this.state.page + 1
-    //   }`;
-    //   fetch(url)
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       this.setState({ articles: data.articles, page: this.state.page + 1 });
-    //     });
-    // }
   };
 
   render() {
@@ -74,6 +62,8 @@ class News extends Component {
       <div className="container my-3">
         <h2 className="text-center">News Wale - Top Headlines</h2>
         {this.state.loading && <Spinner />}
+        {/* {this.state.loading ? <Spinner /> : ""} */}
+        {/* my logic for linking loading state to spinner component */}
         <div className="row">
           {!this.state.loading &&
             this.state.articles.map((ele) => {
