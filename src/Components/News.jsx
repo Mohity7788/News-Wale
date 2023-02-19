@@ -81,6 +81,8 @@ class News extends Component {
                         : "https://www.rozgar.com/static/media/courseSummary.d98ada59dc956b02ebf5.jpg"
                     }
                     newsUrl={ele.url}
+                    author={ele.author ? ele.author : "Unknown"}
+                    date={ele.publishedAt ? ele.publishedAt : "Unknown"}
                   />
                 </div>
               );
