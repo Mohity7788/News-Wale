@@ -13,8 +13,7 @@ class News extends Component {
   }
   async componentDidMount() {
     this.setState({ loading: true });
-    let url =
-      "https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12";
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -28,7 +27,9 @@ class News extends Component {
   }
   handlePrevious = () => {
     this.setState({ loading: true });
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12&page=${
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${
+      this.props.category
+    }&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12&page=${
       this.state.page - 1
     }`;
     fetch(url)
@@ -43,7 +44,9 @@ class News extends Component {
   };
   handleNext = () => {
     this.setState({ loading: true });
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12&page=${
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${
+      this.props.category
+    }&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12&page=${
       this.state.page + 1
     }`;
     fetch(url)
@@ -86,7 +89,7 @@ class News extends Component {
             <button
               disabled={this.state.page <= 1}
               type="button"
-              class="btn btn-dark btn-previous"
+              className="btn btn-dark btn-previous"
               onClick={this.handlePrevious}
             >
               Previous Page
@@ -96,7 +99,7 @@ class News extends Component {
               disabled={
                 this.state.page + 1 > Math.ceil(this.state.totalArticles / 20)
               }
-              class="btn btn-dark btn-next"
+              className="btn btn-dark btn-next"
               onClick={this.handleNext}
             >
               Next page
