@@ -3,14 +3,24 @@ import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 
 class News extends Component {
-  constructor() {
-    super();
+  // To make First letter capital
+  capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
       loading: false,
       page: 1,
     };
+
+    // to make title dynamic
+    document.title = `${this.capitalize(this.props.category)} | News Wale`;
   }
+
+  // Calling the main new API Data
   async componentDidMount() {
     this.setState({ loading: true });
     let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12`;
@@ -25,6 +35,8 @@ class News extends Component {
         });
       });
   }
+
+  // Hadling Previous button
   handlePrevious = () => {
     this.setState({ loading: true });
     let url = `https://newsapi.org/v2/top-headlines?country=in&category=${
@@ -42,6 +54,8 @@ class News extends Component {
         });
       });
   };
+
+  //handling Next button
   handleNext = () => {
     this.setState({ loading: true });
     let url = `https://newsapi.org/v2/top-headlines?country=in&category=${
@@ -63,7 +77,9 @@ class News extends Component {
   render() {
     return (
       <div className="container my-3">
-        <h2 className="text-center">News Wale - Top Headlines</h2>
+        <h2 className="text-center">
+          News Wale - Top {this.capitalize(this.props.category)} Headlines
+        </h2>
         {this.state.loading && <Spinner />}
         {/* {this.state.loading ? <Spinner /> : ""} */}
         {/* my logic for linking loading state to spinner component */}
