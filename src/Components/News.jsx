@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 class News extends Component {
   // To make First letter capital
@@ -14,6 +15,7 @@ class News extends Component {
       articles: [],
       loading: false,
       page: 1,
+      totalResults: 0,
     };
 
     // to make title dynamic
@@ -30,48 +32,28 @@ class News extends Component {
         console.log(data);
         this.setState({
           articles: data.articles,
-          totalArticles: data.totalResults,
+          totalResults: data.totalResults,
           loading: false,
         });
       });
   }
 
-  // Hadling Previous button
-  handlePrevious = () => {
-    this.setState({ loading: true });
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${
-      this.props.category
-    }&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12&page=${
-      this.state.page - 1
-    }`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          articles: data.articles,
-          loading: false,
-          page: this.state.page - 1,
-        });
-      });
-  };
+  fetchMoreData = () => {
+    this.setState({ page: this.state.page + 1 });
+    setTimeout(() => {
+      let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&page=${this.state.page}&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
 
-  //handling Next button
-  handleNext = () => {
-    this.setState({ loading: true });
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${
-      this.props.category
-    }&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12&page=${
-      this.state.page + 1
-    }`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          articles: data.articles,
-          loading: false,
-          page: this.state.page + 1,
+          this.setState({
+            articles: this.state.articles.concat(data.articles),
+            totalResults: data.totalResults,
+            loading: false,
+          });
         });
-      });
+    }, 1000);
   };
 
   render() {
@@ -80,12 +62,18 @@ class News extends Component {
         <h2 className="text-center">
           News Wale - Top {this.capitalize(this.props.category)} Headlines
         </h2>
-        {this.state.loading && <Spinner />}
+        {/* {this.state.loading && <Spinner />} */}
         {/* {this.state.loading ? <Spinner /> : ""} */}
         {/* my logic for linking loading state to spinner component */}
-        <div className="row">
-          {!this.state.loading &&
-            this.state.articles.map((ele) => {
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.articles.length !== this.state.totalResults}
+          loader={<Spinner />}
+          key={this.state.articles.url}
+        >
+          <div className="row">
+            {this.state.articles.map((ele) => {
               return (
                 <div className="col-md-4" key={ele.url}>
                   <NewsItem
@@ -103,27 +91,8 @@ class News extends Component {
                 </div>
               );
             })}
-          <div className="container d-flex justify-content-between">
-            <button
-              disabled={this.state.page <= 1}
-              type="button"
-              className="btn btn-dark btn-previous"
-              onClick={this.handlePrevious}
-            >
-              Previous Page
-            </button>
-            <button
-              type="button"
-              disabled={
-                this.state.page + 1 > Math.ceil(this.state.totalArticles / 20)
-              }
-              className="btn btn-dark btn-next"
-              onClick={this.handleNext}
-            >
-              Next page
-            </button>
           </div>
-        </div>
+        </InfiniteScroll>
       </div>
     );
   }
