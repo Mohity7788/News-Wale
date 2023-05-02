@@ -42,7 +42,7 @@ class News extends Component {
   fetchMoreData = () => {
     this.setState({ page: this.state.page + 1 });
     setTimeout(() => {
-      let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&page=${this.state.page}&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12`;
+      let url = `${process.env.REACT_APP_BASE_API}=${this.props.category}&page=${this.state.page}&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12`;
       fetch(url)
         .then((res) => res.json())
         .then((data) => {
