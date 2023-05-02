@@ -6,6 +6,13 @@ import News from "./Components/News";
 import { Routes, Route } from "react-router-dom";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      apiKey: process.env.REACT_APP_BASE_URL,
+    };
+  }
+
   render() {
     return (
       <>

@@ -22,10 +22,10 @@ class News extends Component {
     document.title = `${this.capitalize(this.props.category)} | News Wale`;
   }
 
-  // Calling the main new API Data
+  // Calling the main nes API Data
   async componentDidMount() {
     this.setState({ loading: true });
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=17627e3ab39a43e9b045089e927af01f&pageSize=12`;
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${process.env.REACT_APP_BASE_URL}&pageSize=12`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -36,6 +36,7 @@ class News extends Component {
           loading: false,
         });
       });
+    console.log(this.props.apiKey);
   }
 
   fetchMoreData = () => {
